@@ -66,12 +66,6 @@ shinyUI(fixedPage(
                                allign = "center",
                                downloadButton("downloadACRL","Export ACRL")
                              )
-                           ),
-                           fluidRow(
-                             column(
-                               12,
-                               tableOutput("test")
-                             )
                            )
                            ),
                   tabPanel("UCOP",
