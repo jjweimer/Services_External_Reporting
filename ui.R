@@ -13,7 +13,7 @@ shinyUI(fixedPage(
   ),
   
   #bslib theming
-  #SEE https://brand.ucsd.edu/using-the-brand/web/index.html
+  #SEE https://brand.ucsd.edu/using-the-brand/web/index.html for brand guidelines
   theme = bslib::bs_theme(
     bg = "#FFFFFF",
     fg = "#000000",
