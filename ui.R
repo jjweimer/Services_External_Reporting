@@ -1,9 +1,13 @@
 library(shiny)
 library(bslib)
+library(shinycssloaders)
 
 #max file size 30mb for upload
 options(shiny.maxRequestSize = 30*1024^2)
 #spinner options
+options(spinner.type = 3,
+        spinner.color.background  = "#ffffff",
+        spinner.color = "#00629B")
 
 shinyUI(fixedPage(
 

@@ -1,5 +1,9 @@
 library(shiny)
 library(dplyr)
+library(lubridate)
+library(tidyr)
+#source functions
+source("functions/dataprep_monthly.R")
 
 shinyServer(function(input, output) {
   
@@ -24,30 +28,33 @@ shinyServer(function(input, output) {
   ## ----------- REPORTING BODY SPECIFIC CLEANING -----------
   
   dataprep_ACRL <- reactive({
-    return(
-      dataprep() %>% 
-        select(-Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,
-               -Q14,-Q14_10_TEXT,-Q193))
+    df <- dataprep() %>% 
+      select(-Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,
+             -Q14,-Q14_10_TEXT,-Q193)
+    df <- dataprep_monthly(df)
+    return(df)
   })
   
   dataprep_UCOP <- reactive({
-    return(
-      dataprep() %>% 
-        select(
-          -Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,
-          -Q14,-Q14_10_TEXT,-Q193, -Q198, -Q198_10_TEXT))
+    df <- dataprep() %>% 
+      select(-Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,-Q14,
+             -Q14_10_TEXT,-Q193, -Q198, -Q198_10_TEXT)
+    df <- dataprep_monthly(df)
+    return(df)
   })
   
   dataprep_ARL <- reactive({
-    return(
-      dataprep() %>%
-        select(
-          -Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,
-          -Q14,-Q14_10_TEXT,-Q193, -Q198, -Q198_10_TEXT))
+    df <- dataprep() %>%
+      select(-Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,
+             -Q14,-Q14_10_TEXT,-Q193, -Q198, -Q198_10_TEXT)
+    df <- dataprep_monthly(df)
+    return(df)
   })
   
   dataprep_AnnualReport <- reactive({
-    return(dataprep()) #needs all categories
+    df <- dataprep() #needs all categories
+    df <- dataprep_monthly(df)
+    return(df)
   })
   
   
