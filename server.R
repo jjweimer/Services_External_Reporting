@@ -2,8 +2,26 @@ library(shiny)
 library(dplyr)
 library(lubridate)
 library(tidyr)
+library(writexl)
 #source functions
 source("functions/dataprep_monthly.R")
+source("functions/dataprep_digital_learning_objects.R")
+source("functions/dataprep_instruction_attendees.R")
+source("functions/dataprep_instruction_location.R")
+source("functions/dataprep_instruction_multisession.R")
+source("functions/dataprep_instruction_sessions.R")
+source("functions/dataprep_instructor_program.R")
+source("functions/dataprep_instructor_program_other.R")
+source("functions/dataprep_outreach_attendees.R")
+source("functions/dataprep_outreach_audience.R")
+source("functions/dataprep_outreach_audience_other.R")
+source("functions/dataprep_outreach_collaborators.R")
+source("functions/dataprep_outreach_home_program.R")
+source("functions/dataprep_transaction_count.R")
+
+#big request size limit
+options(shiny.maxRequestSize = 10000 * 1024 ^ 2)
+
 
 shinyServer(function(input, output) {
   
@@ -15,53 +33,14 @@ shinyServer(function(input, output) {
     }
     df <- read.csv(inFile$datapath)
     df <- df %>% 
-      select(Q2,
+      select(Q2, RecordedDate,
         Q38, Q156, Q16, #these three are the date categories
         Q174,Q174_8_TEXT,Q184,Q194,Q194_6_TEXT,
         Q14,Q14_10_TEXT,Q191,Q193,Q197_1,Q197_2,
         Q21,Q198,Q198_10_TEXT,Q27,Q28)
-    #filter out Data & GIS Lab rows
-    df <- df[!(df$Q2 %in% c("Data/GIS Lab")),]
-    return(df)
-  })
-  
-  ## ----------- REPORTING BODY SPECIFIC CLEANING -----------
-  
-  dataprep_ACRL <- reactive({
-    df <- dataprep() %>% 
-      select(-Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,
-             -Q14,-Q14_10_TEXT,-Q193)
     df <- dataprep_monthly(df)
     return(df)
   })
-  
-  dataprep_UCOP <- reactive({
-    df <- dataprep() %>% 
-      select(-Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,-Q14,
-             -Q14_10_TEXT,-Q193, -Q198, -Q198_10_TEXT)
-    df <- dataprep_monthly(df)
-    return(df)
-  })
-  
-  dataprep_ARL <- reactive({
-    df <- dataprep() %>%
-      select(-Q174, -Q174_8_TEXT,-Q194,-Q194_6_TEXT,
-             -Q14,-Q14_10_TEXT,-Q193, -Q198, -Q198_10_TEXT)
-    df <- dataprep_monthly(df)
-    return(df)
-  })
-  
-  dataprep_AnnualReport <- reactive({
-    df <- dataprep() #needs all categories
-    df <- dataprep_monthly(df)
-    return(df)
-  })
-  
-  
-  # ------------------ OUTPUTS --------------------------------
-  
-  output$test <- renderTable(dataprep(),
-                             width = "100%")
   
   # ------- FILE DOWNLOADS -----------------------------------
   
@@ -87,9 +66,14 @@ shinyServer(function(input, output) {
   )
   
   output$downloadAnnualReport <- downloadHandler(
-    filename = "AnnualReport.csv",
+    filename = "AnnualReport.xlsx",
     content = function(file){
-      write.csv(dataprep_AnnualReport(),file,row.names = FALSE)
+      table1 <- dataprep_digital_learning_objects(dataprep())
+      table2 <- dataprep_instruction_attendees(dataprep())
+      table3 <- dataprep_instruction_location(dataprep())
+      sheets <- mget(ls(pattern = "table"))
+      names(sheets) <- paste0("sheet", seq_len(length(sheets)))
+      writexl::write_xlsx(sheets, path = file)
     }
   )
   
