@@ -3,6 +3,8 @@ library(dplyr)
 library(lubridate)
 library(tidyr)
 library(writexl)
+library(bslib)
+library(shinycssloaders)
 #source functions
 source("functions/dataprep_monthly.R")
 source("functions/dataprep_digital_learning_objects.R")
@@ -118,7 +120,7 @@ shinyServer(function(input, output) {
     }
   )
   
-  # ----------- REACTIVE TEXT -----------------------
+  # ----------- CONFIRMATION TEXT -----------------------
   
   output$confirm_text <- renderUI({
     if (!is.null(dataprep())){
