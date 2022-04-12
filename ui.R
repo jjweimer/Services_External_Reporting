@@ -48,65 +48,44 @@ shinyUI(fixedPage(
       selectInput(
         "year","Fiscal Year",
         c("2022/2023" = "2022/2023",
-          "2021/2022" = "2021/2022")
-      )
+          "2021/2022" = "2021/2022")),
     )
   ),
-  
-  tags$hr(),
-  
-  #tabset panels
   fluidRow(
     column(
       12,
       align = "center",
-      tabsetPanel(type = "pills",
-                  tabPanel("ACRL",
-                           tags$hr(),
-                           fluidRow(
-                             column(
-                               4,
-                               offset = 4,
-                               allign = "center",
-                               downloadButton("downloadACRL","Export ACRL")
-                             )
-                           )
-                           ),
-                  tabPanel("UCOP",
-                           tags$hr(),
-                           fluidRow(
-                             column(
-                               4,
-                               offset = 4,
-                               allign = "center",
-                               downloadButton("downloadUCOP","Export UCOP")
-                             )
-                           )
-                           ),
-                  tabPanel("ARL",
-                           tags$hr(),
-                           fluidRow(
-                             column(
-                               4,
-                               offset = 4,
-                               allign = "center",
-                               downloadButton("downloadARL","Export ARL")
-                             )
-                           )
-                           ),
-                  tabPanel("Annual Report",
-                           tags$hr(),
-                           fluidRow(
-                             column(
-                               4,
-                               offset = 4,
-                               allign = "center",
-                               downloadButton("downloadAnnualReport","Export Annual Report")
-                             )
-                           )
-                           )
-                  )
-    ) # end column 12
-  ) #end tabset panels
+      h6("This app automatically aggregates data to the month level. Stephanie will add more info later"),
+      tags$hr()
+    )
+  ),
+  #export buttons row
+  fluidRow(
+    column(
+      3,
+      downloadButton("downloadACRL","Export ACRL")
+    ),
+    column(
+      3,
+      downloadButton("downloadUCOP","Export UCOP")
+    ),
+    column(
+      3,
+      downloadButton("downloadARL","Export ARL")
+    ),
+    column(
+      3,
+      downloadButton("downloadAnnualReport","Export Annual Report")
+    )
+  ),
+  tags$hr(),
+  fluidRow(
+    column(
+      10,
+      offset = 1,
+      align = "center",
+      uiOutput("confirm_text") %>% withSpinner()
+    )
+  )
   
 ))

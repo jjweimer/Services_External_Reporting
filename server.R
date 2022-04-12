@@ -118,4 +118,14 @@ shinyServer(function(input, output) {
     }
   )
   
+  # ----------- REACTIVE TEXT -----------------------
+  
+  output$confirm_text <- renderUI({
+    if (!is.null(dataprep())){
+      return(h4("Export Prepared! Use the above buttons to export annual reports"))
+    } else {
+      return(NULL)
+    }
+  })
+  
 })
