@@ -23,9 +23,6 @@ source("functions/dataprep_transaction_count.R")
 source("functions/dataprep_desk_question_type.R")
 source("functions/dataprep_desk_question_others.R")
 
-#big request size limit
-options(shiny.maxRequestSize = 10000 * 1024 ^ 2)
-
 shinyServer(function(input, output) {
   
   #process input file and perform preliminary filter
