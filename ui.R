@@ -51,21 +51,19 @@ shinyUI(fixedPage(
       fileInput(
         "file1","Upload Qualtrics Export",
         accept  = c("text/csv","text/comma-separated-values,text/plain",".csv")
-        ),
-      selectInput(
-        "year","Fiscal Year",
-        c("2022/2023" = "2022/2023",
-          "2021/2022" = "2021/2022")),
+        )
     )
   ),
   fluidRow(
     column(
       12,
       align = "center",
-      h6("This app automatically aggregates data to the month level. Stephanie will add more info later"),
+      HTML("This application imports a Qualtrics library service statistics Excel file and cleans and aggregates data relevant for external reporting bodies (number of instruction activities, info desk interactions, etc.). Data are currently aggregated to the monthly level."),
+      HTML("<p> Check the <a href='https://ucsdlibrary.atlassian.net/wiki/spaces/LST/pages/60369935/Library+Statistics'>LiSN page for Library Statistics </a> for information on exporting data from Qualtrics.</p>"),
       tags$hr()
     )
   ),
+  tags$br(),
   #export buttons row
   fluidRow(
     column(
@@ -85,7 +83,9 @@ shinyUI(fixedPage(
       downloadButton("downloadAnnualReport","Export Annual Report")
     )
   ),
+  tags$br(),
   tags$hr(),
+  tags$br(),
   fluidRow(
     column(
       10,
