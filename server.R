@@ -37,8 +37,10 @@ shinyServer(function(input, output) {
         Q38, Q156, Q16, #these three are the date categories
         Q174,Q174_8_TEXT,Q184,Q194,Q194_6_TEXT,
         Q14,Q14_10_TEXT,Q191,Q193,Q197_1,Q197_2,
-        Q21,Q198,Q198_10_TEXT,Q27,Q28,Q31)
-    df <- dataprep_monthly(df)
+        Q21,Q198,Q198_10_TEXT,Q27,Q28,Q36,Q31)
+    df <- dataprep_monthly(df) %>% 
+      filter(date >= ymd("2017-1-1")) %>%
+      filter(date <= ymd("2030-1-1")) #i dont think pepole will be using this in 2030
     return(df)
   })
   
