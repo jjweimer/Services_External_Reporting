@@ -5,3 +5,6 @@ dataprep_instructor_program <- function(df){
     pivot_wider(names_from = Q14, values_from = n) 
   return(foo)
 }
+# ----------
+# Data from 2020 and before has codes 4,6,7. 
+# These are legacy codes for instruction areas
